@@ -34,15 +34,29 @@
         }).addTo(map);
 
         {% for d in denuncias %}
-        L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
-            .bindPopup(`
-                <div class="p-2">
-                    <strong class="text-blue-700 uppercase text-xs">${"{{ d.category }}"}</strong>
-                    <p class="text-[10px] text-slate-400 font-bold uppercase">${"{{ d.ra }}"}</p>
-                    <p class="text-xs mt-2 italic text-slate-600">"${"{{ d.description }}"}"</p>
+     
+
+// Renderizar as denúncias no mapa com Foto e Descrição
+{% for d in denuncias %}
+    L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
+        .bindPopup(`
+            <div style="width: 220px; font-family: sans-serif;">
+                ${ ("{{ d.image }}" !== "None" && "{{ d.image }}" !== "") ? 
+                    `<img src="/static/uploads/{{ d.image }}" style="width:100%; height:150px; object-fit:cover; border-radius:15px; margin-bottom:10px; border:2px solid #eee;">` 
+                    : `<div style="background:#f1f5f9; height:100px; border-radius:15px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">🖼️ Sem Foto</div>` 
+                }
+                
+                <h3 style="margin:0; color:#1d4ed8; font-size:16px; font-weight:900; text-transform:uppercase;">{{ d.category }}</h3>
+                <p style="margin:5px 0; font-size:10px; font-weight:bold; color:#64748b;">📍 {{ d.ra }} | 🗓️ {{ d.date }}</p>
+                
+                <div style="background:#f8fafc; padding:10px; border-radius:10px; border-left:4px solid #3b82f6; margin-top:10px;">
+                    <p style="margin:0; font-size:12px; color:#334155; line-height:1.4;">"{{ d.description }}"</p>
                 </div>
-            `);
-        {% endfor %}
+            </div>
+        `, { maxWidth: 250 });
+{% endfor %}
+{% endfor %}
+
     </script>
 </body>
 </html>

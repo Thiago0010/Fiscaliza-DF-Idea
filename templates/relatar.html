@@ -8,8 +8,11 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
         #map-selector { height: 400px; width: 100%; border-radius: 1rem; z-index: 1; border: 4px solid white; cursor: crosshair; }
         input:checked + .cat-card { border-color: #1d4ed8; background: #eff6ff; transform: scale(1.05); }
+        .cat-card { transition: all 0.2s ease; }
     </style>
 </head>
 <body class="bg-slate-100 min-h-screen pb-20">
@@ -22,23 +25,79 @@
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
             <div class="bg-blue-700 p-8 text-white">
                 <h2 class="text-3xl font-black italic uppercase tracking-tighter">Registrar Problema</h2>
-                <p class="opacity-80">Sua denúncia ajuda a construir um DF mais organizado.</p>
+                <p class="opacity-80">Sua denúncia ajuda a construir um DF melhor.</p>
             </div>
 
-            <form action="/enviar" method="POST" class="p-8 space-y-10">
+            <form id="form-relato" action="/enviar" method="POST" enctype="multipart/form-data" class="p-8 space-y-10">
                 
                 <div>
                     <label class="block text-slate-800 font-black uppercase text-xs tracking-widest mb-4">1. Tipo de Problema</label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        {% for cat in categorias %}
+                        
                         <label class="relative cursor-pointer">
-                            <input type="radio" name="category" value="{{ cat.nome }}" class="hidden" required>
-                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center transition-all hover:bg-slate-50">
-                                <span class="text-3xl mb-1 block">{{ cat.icone }}</span>
-                                <span class="text-[9px] font-black uppercase text-slate-500">{{ cat.nome }}</span>
+                            <input type="radio" name="category" value="Buraco na rua" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">🕳️</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Buraco na rua</span>
                             </div>
                         </label>
-                        {% endfor %}
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Iluminação pública" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">💡</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Iluminação</span>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Lixo acumulado" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">♻️</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Lixo Acumulado</span>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Problema em praça" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">🌳</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Prob. em Praça</span>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Transporte público" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">🚌</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Transp. Público</span>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Segurança" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">🚔</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Segurança</span>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Acidentes" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">⚠️</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Acidentes</span>
+                            </div>
+                        </label>
+
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="category" value="Melhorias" class="hidden">
+                            <div class="cat-card p-4 border-2 border-slate-100 rounded-2xl text-center hover:bg-slate-50">
+                                <span class="text-3xl mb-1 block">🏗️</span>
+                                <span class="text-[9px] font-black uppercase text-slate-500">Melhorias</span>
+                            </div>
+                        </label>
+
                     </div>
                 </div>
 
@@ -52,16 +111,33 @@
                         <label class="text-xs font-bold text-slate-400 uppercase">Região Administrativa</label>
                         <select name="ra" id="ra_select" class="w-full mt-1 p-4 bg-slate-50 border border-slate-200 rounded-xl font-bold" required>
                             <option value="">Selecione a RA...</option>
-                            {% for ra in regioes %}
-                            <option value="{{ ra }}">{{ ra }}</option>
-                            {% endfor %}
-                        </select>
+                            <option value="Brasília">Brasília</option>
+                            <option value="Ceilândia">Ceilândia</option>
+                            <option value="Taguatinga">Taguatinga</option>
+                            <option value="Samambaia">Samambaia</option>
+                            <option value="Guará">Guará</option>
+                            <option value="Águas Claras">Águas Claras</option>
+                            <option value="Sobradinho">Sobradinho</option>
+                            <option value="Planaltina">Planaltina</option>
+                            </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-slate-800 font-black uppercase text-xs tracking-widest mb-2">3. Descrição dos Fatos</label>
-                    <textarea name="description" placeholder="Ex: Buraco profundo na via..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl h-32 outline-none focus:ring-2 focus:ring-blue-600 transition-all" required></textarea>
+                    <label class="block text-slate-800 font-black uppercase text-xs tracking-widest mb-4">3. Tirar Foto do Local</label>
+                    <div class="relative border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:bg-slate-50 transition-all group">
+                        <input type="file" name="image" id="image-input" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                        <div id="preview-text">
+                            <span class="text-3xl mb-1 block">📸</span>
+                            <p class="text-[10px] font-black uppercase text-slate-400">Clique para abrir a câmera ou galeria</p>
+                        </div>
+                        <img id="image-preview" src="#" class="hidden mx-auto h-48 rounded-2xl shadow-lg border-4 border-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-800 font-black uppercase text-xs tracking-widest mb-2">4. Descrição</label>
+                    <textarea name="description" placeholder="Ex: Buraco profundo na via..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl h-32 outline-none" required></textarea>
                 </div>
 
                 <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-200 uppercase tracking-widest transition-all transform active:scale-95">
@@ -72,37 +148,43 @@
     </main>
 
     <script>
+        // Configuração do Mapa
         const bounds = L.latLngBounds(L.latLng(-16.1, -48.3), L.latLng(-15.4, -47.2));
         var map = L.map('map-selector', { maxBounds: bounds }).setView([-15.7938, -47.8827], 11);
 
-        // Satélite Google
         L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
             maxZoom: 20,
             subdomains:['mt0','mt1','mt2','mt3']
         }).addTo(map);
 
         var marker;
-
         map.on('click', function(e) {
             if (marker) map.removeLayer(marker);
             marker = L.marker(e.latlng).addTo(map);
             document.getElementById('lat').value = e.latlng.lat;
             document.getElementById('lng').value = e.latlng.lng;
             map.flyTo(e.latlng, 17);
-
-            // Tenta detectar a RA via API
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
-                .then(r => r.json()).then(data => {
-                    const local = data.address.suburb || data.address.city_district || "";
-                    const select = document.getElementById('ra_select');
-                    for (let i=0; i<select.options.length; i++) {
-                        if (local.toLowerCase().includes(select.options[i].value.toLowerCase())) {
-                            select.selectedIndex = i;
-                            break;
-                        }
-                    }
-                });
         });
+
+        // --- VALIDAÇÃO DE CATEGORIA ---
+        document.getElementById('form-relato').onsubmit = function(e) {
+            const categoriaMarcada = document.querySelector('input[name="category"]:checked');
+            if (!categoriaMarcada) {
+                e.preventDefault(); // Bloqueia envio
+                alert("Para Proseguir, Marque a Opção que mais defina o seu problema.");
+                return false;
+            }
+        };
+
+        // --- PREVIEW DA FOTO ---
+        document.getElementById('image-input').onchange = function() {
+            const [file] = this.files;
+            if (file) {
+                document.getElementById('image-preview').src = URL.createObjectURL(file);
+                document.getElementById('image-preview').classList.remove('hidden');
+                document.getElementById('preview-text').classList.add('hidden');
+            }
+        };
 
         setTimeout(() => map.invalidateSize(), 500);
     </script>

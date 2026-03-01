@@ -9,10 +9,10 @@ OK: Página “Sobre o Projeto”
 
 🔹 2. Registro de Problemas (núcleo do sistema)
 
-☐ Categoria obrigatória
-☐ Região administrativa obrigatória
-☐ Descrição obrigatória
-☐ Latitude e longitude
+OK: Categoria obrigatória
+OK: Região administrativa obrigatória
+OK: Descrição obrigatória
+OK: Latitude e longitude
 ☐ Upload opcional de imagem
 ☐ Data automática
 ☐ Status padrão = “Aberto”
