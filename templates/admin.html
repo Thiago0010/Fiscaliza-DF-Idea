@@ -2,52 +2,97 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Painel de Gestão | Fiscaliza DF</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | Fiscaliza DF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-100 font-sans">
-    <nav class="bg-slate-900 text-white p-6 flex justify-between items-center shadow-xl">
-        <h1 class="font-black tracking-tighter text-xl">ADMIN <span class="text-blue-500">FISCALIZA DF</span></h1>
-        <a href="/logout" class="text-xs bg-red-600 px-4 py-2 rounded-lg font-bold">Sair do Sistema</a>
+<body class="bg-slate-100 min-h-screen">
+
+    <nav class="bg-slate-900 text-white p-5 flex justify-between items-center shadow-lg">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-lg font-black shadow-md">FDF</div>
+            <div>
+                <h1 class="font-black text-xl italic uppercase tracking-tighter leading-none">Painel <span class="text-blue-500">Admin</span></h1>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Central de Operações</p>
+            </div>
+        </div>
+        <div class="flex gap-6 items-center">
+            <a href="/" class="text-xs font-bold text-slate-300 hover:text-white uppercase tracking-widest transition">← Voltar ao Site</a>
+            <a href="/logout" class="bg-red-500/10 text-red-500 border border-red-500/20 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition">Sair</a>
+        </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto py-12 px-6">
-        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-            <table class="w-full text-left">
-                <thead class="bg-slate-50 border-b border-slate-100">
-                    <tr>
-                        <th class="p-6 text-xs font-black uppercase text-slate-400">Categoria/RA</th>
-                        <th class="p-6 text-xs font-black uppercase text-slate-400">Descrição</th>
-                        <th class="p-6 text-xs font-black uppercase text-slate-400">Status</th>
-                        <th class="p-6 text-xs font-black uppercase text-slate-400 text-right">Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    {% for d in denuncias %}
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-6">
-                            <p class="font-bold text-slate-800">{{ d.category }}</p>
-                            <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest">{{ d.ra }}</p>
-                        </td>
-                        <td class="p-6 text-sm text-slate-600 max-w-xs italic">"{{ d.description }}"</td>
-                        <td class="p-6">
-                            {% if d.status == 'Resolvido' %}
-                                <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-black uppercase">Resolvido</span>
-                            {% else %}
-                                <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-black uppercase">Pendente</span>
-                            {% endif %}
-                        </td>
-                        <td class="p-6 text-right space-x-2">
-                            {% if d.status != 'Resolvido' %}
-                            <a href="/resolver/{{ d.id }}" class="text-[10px] font-black bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700">MARCAR RESOLVIDO</a>
-                            {% endif %}
-                            <a href="/excluir/{{ d.id }}" onclick="return confirm('Tem certeza?')" class="text-[10px] font-black bg-slate-100 text-slate-400 px-3 py-2 rounded-md hover:bg-red-600 hover:text-white transition">EXCLUIR</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="text-3xl font-black text-slate-800 uppercase tracking-tighter">Gerenciamento de Relatos</h2>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest bg-white px-4 py-2 rounded-full shadow-sm border border-slate-200">
+                Total de Registros: <span class="text-blue-600">{{ denuncias|length }}</span>
+            </p>
         </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for d in denuncias %}
+            <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300">
+                
+                <div class="relative">
+                    {% if d.image and d.image != 'None' %}
+                        <img src="{{ url_for('static', filename='uploads/' + d.image) }}" class="w-full h-56 object-cover bg-slate-100">
+                    {% else %}
+                        <div class="w-full h-56 bg-slate-50 border-b border-slate-100 flex flex-col items-center justify-center text-slate-300">
+                            <span class="text-4xl mb-2">📷</span>
+                            <span class="font-bold text-[10px] uppercase tracking-widest">Sem Imagem</span>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-slate-800 text-[10px] font-black px-3 py-1.5 rounded-full shadow-sm">
+                        🗓️ {{ d.date }}
+                    </div>
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col">
+                    <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-black px-3 py-1 rounded-md uppercase tracking-widest w-max mb-3 border border-blue-100">
+                        {{ d.category }}
+                    </span>
+                    
+                    <h3 class="font-black text-slate-800 uppercase text-lg leading-tight mb-2">📍 {{ d.ra }}</h3>
+                    
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6 flex-1">
+                        <p class="text-sm text-slate-600 italic leading-relaxed">"{{ d.description }}"</p>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-5 space-y-3 mt-auto">
+                        
+                        <form action="/atualizar_status/{{ d.id }}" method="POST" class="flex gap-2">
+                            <select name="status" class="flex-1 bg-white border-2 border-slate-200 text-xs font-black p-3 rounded-xl outline-none focus:border-blue-500 text-slate-700 uppercase tracking-wide cursor-pointer appearance-none">
+                                <option value="Aberto" {% if d.status == 'Aberto' %}selected{% endif %}>🔴 Aberto</option>
+                                <option value="Em análise" {% if d.status == 'Em análise' %}selected{% endif %}>🟡 Em análise</option>
+                                <option value="Resolvido" {% if d.status == 'Resolvido' %}selected{% endif %}>🟢 Resolvido</option>
+                            </select>
+                            <button type="submit" class="bg-slate-800 hover:bg-black text-white text-[10px] font-black uppercase px-5 rounded-xl transition-all shadow-md">
+                                Salvar
+                            </button>
+                        </form>
+
+                        <a href="/delete/{{ d.id }}" onclick="return confirm('ATENÇÃO: Tem certeza que deseja excluir esta denúncia do sistema permanentemente?');" class="flex items-center justify-center gap-2 w-full bg-red-50 text-red-600 hover:bg-red-500 hover:text-white border border-red-100 text-[10px] font-black uppercase py-3 rounded-xl transition-all">
+                            🗑️ Excluir Ocorrência
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if not denuncias %}
+        <div class="text-center py-32 bg-white rounded-[3rem] border border-slate-200 shadow-sm mt-8">
+            <span class="text-6xl mb-4 block">📭</span>
+            <h3 class="text-xl font-black text-slate-800 uppercase tracking-tighter mb-2">Caixa Vazia</h3>
+            <p class="text-slate-500 font-medium text-sm">Nenhum relato foi registrado pelos cidadãos ainda.</p>
+        </div>
+        {% endif %}
     </main>
 </body>
 </html>

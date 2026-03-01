@@ -30,6 +30,20 @@
 
             <form id="form-relato" action="/enviar" method="POST" enctype="multipart/form-data" class="p-8 space-y-10">
                 
+
+
+
+<input type="hidden" name="spam_token" value="{{ token }}">
+
+<div class="anti-spam-box">
+    <p>Quanto é {{ n1 }} + {{ n2 }}?</p>
+    <input type="number" name="spam_answer" required placeholder="Resposta">
+</div>
+
+
+
+
+
                 <div>
                     <label class="block text-slate-800 font-black uppercase text-xs tracking-widest mb-4">1. Tipo de Problema</label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -139,6 +153,26 @@
                     <label class="block text-slate-800 font-black uppercase text-xs tracking-widest mb-2">4. Descrição</label>
                     <textarea name="description" placeholder="Ex: Buraco profundo na via..." class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl h-32 outline-none" required></textarea>
                 </div>
+
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+    <label class="block text-slate-800 font-black uppercase text-xs tracking-widest">
+        5. Verificação de Segurança
+    </label>
+
+    <div style="display:none;">
+        <input type="text" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="flex items-center gap-4">
+        <div class="bg-white px-4 py-3 rounded-xl border-2 border-slate-200 font-black text-blue-700">
+            Quanto é {{ n1 }} + {{ n2 }}?
+        </div>
+        <input type="number" name="spam_answer" placeholder="Resposta" 
+               class="flex-1 p-3 bg-white border-2 border-slate-200 rounded-xl font-bold outline-none focus:border-blue-500" 
+               required>
+    </div>
+    <p class="text-[9px] text-slate-400 uppercase font-bold italic">Prove que você não é um robô para evitar spams.</p>
+</div>
 
                 <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-200 uppercase tracking-widest transition-all transform active:scale-95">
                     Protocolar Denúncia

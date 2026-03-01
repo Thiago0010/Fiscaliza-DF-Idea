@@ -83,6 +83,66 @@
         </div>
     </header>
 
+
+
+<div class="max-w-7xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
+            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Total Geral</p>
+            <h3 class="text-4xl font-black text-blue-600">{{ total_geral }}</h3>
+            <p class="text-[9px] text-slate-500 mt-2 italic font-bold">Registros no sistema</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
+            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Mais Reportado</p>
+            <h3 class="text-xl font-black text-slate-800 uppercase leading-tight">{{ top_categoria['category'] }}</h3>
+            <p class="text-[9px] text-blue-500 mt-1 font-bold">{{ top_categoria['qtd'] }} ocorrências</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
+            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Região Crítica</p>
+            <h3 class="text-xl font-black text-slate-800 uppercase leading-tight">{{ top_regiao['ra'] }}</h3>
+            <p class="text-[9px] text-red-500 mt-1 font-bold">{{ top_regiao['qtd'] }} registros</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-200">
+            <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Sincronizado em</p>
+            <h3 class="text-lg font-black text-slate-800">{{ ultima_at }}</h3>
+            <p class="text-[9px] text-green-500 mt-1 font-bold uppercase tracking-tighter">● Sistema Online</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl">
+            <h4 class="font-black uppercase text-xs tracking-widest mb-6 text-blue-400">Distribuição por Categoria</h4>
+            <div class="space-y-4">
+                {% for item in total_por_categoria %}
+                <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                    <span class="text-sm font-bold opacity-80 uppercase italic">{{ item['category'] }}</span>
+                    <span class="bg-blue-600 px-3 py-1 rounded-full text-[10px] font-black">{{ item['qtd'] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+            <h4 class="font-black uppercase text-xs tracking-widest mb-6 text-slate-400">Registros por Região</h4>
+            <div class="space-y-4">
+                {% for item in total_por_regiao %}
+                <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                    <span class="text-sm font-bold text-slate-700 uppercase italic">📍 {{ item['ra'] }}</span>
+                    <span class="bg-slate-100 text-slate-800 px-3 py-1 rounded-full text-[10px] font-black">{{ item['qtd'] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
     <section id="mapa" class="py-24 bg-white">
         <div class="max-w-[1440px] mx-auto px-6">
             <div class="flex flex-col lg:flex-row gap-12 items-stretch">
@@ -95,12 +155,49 @@
                         <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 italic font-bold text-xs text-slate-500">
                             📍 {{ total }} Relatos computados no sistema
                         </div>
+                        <section class="max-w-7xl mx-auto px-4 mb-8">
+    <form method="GET" action="/" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-4 items-end">
+        
+        <div class="flex-1 min-w-[200px]">
+            <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Filtrar Categoria</label>
+            <select name="categoria" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold outline-none focus:border-blue-500 transition">
+                <option value="">Todas as Categorias</option>
+                {% for cat in categorias %}
+                    <option value="{{ cat.nome }}" {% if cat_sel == cat.nome %}selected{% endif %}>
+                        {{ cat.icone }} {{ cat.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex-1 min-w-[200px]">
+            <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 tracking-widest">Filtrar Região (RA)</label>
+            <select name="regiao" class="w-full p-3 bg-slate-50 border-2 border-slate-100 rounded-xl text-sm font-bold outline-none focus:border-blue-500 transition">
+                <option value="">Todas as Regiões</option>
+                {% for ra in regioes %}
+                    <option value="{{ ra }}" {% if ra_sel == ra %}selected{% endif %}>📍 {{ ra }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition shadow-md">
+                Filtrar
+            </button>
+            <a href="/" class="bg-slate-100 hover:bg-slate-200 text-slate-500 px-6 py-3 rounded-xl font-black uppercase text-xs tracking-widest transition">
+                Limpar
+            </a>
+        </div>
+    </form>
+</section>
                         <a href="/mapa" class="inline-block w-full text-center py-4 border-2 border-blue-700 text-blue-700 font-black rounded-2xl hover:bg-blue-700 hover:text-white transition uppercase tracking-widest text-xs">
                             Explorar em Tela Cheia ↗
                         </a>
                     </div>
                 </div>
 
+
+                
                 <div class="lg:w-2/3 relative">
                     <div id="main-map" class="shadow-2xl border-[12px] border-slate-100"></div>
                 </div>
@@ -145,27 +242,62 @@
         {% for d in denuncias %}
       
 // Renderizar as denúncias no mapa com Foto e Descrição
-{% for d in denuncias %}
-    L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
-        .bindPopup(`
-            <div style="width: 220px; font-family: sans-serif;">
-                ${ ("{{ d.image }}" !== "None" && "{{ d.image }}" !== "") ? 
-                    `<img src="/static/uploads/{{ d.image }}" style="width:100%; height:150px; object-fit:cover; border-radius:15px; margin-bottom:10px; border:2px solid #eee;">` 
-                    : `<div style="background:#f1f5f9; height:100px; border-radius:15px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;">🖼️ Sem Foto</div>` 
-                }
-                
-                <h3 style="margin:0; color:#1d4ed8; font-size:16px; font-weight:900; text-transform:uppercase;">{{ d.category }}</h3>
-                <p style="margin:5px 0; font-size:10px; font-weight:bold; color:#64748b;">📍 {{ d.ra }} | 🗓️ {{ d.date }}</p>
-                
-                <div style="background:#f8fafc; padding:10px; border-radius:10px; border-left:4px solid #3b82f6; margin-top:10px;">
-                    <p style="margin:0; font-size:12px; color:#334155; line-height:1.4;">"{{ d.description }}"</p>
-                </div>
-            </div>
-        `, { maxWidth: 250 });
-{% endfor %}
+   {% for d in denuncias %}
+        // Verifica se existem coordenadas válidas antes de criar o marcador
+        if ("{{ d.lat }}" && "{{ d.lng }}") {
+            L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
+                .bindPopup(`
+                    <div style="width: 200px; font-family: sans-serif;">
+                        {% if d.image and d.image != 'None' %}
+                            <img src="/static/uploads/{{ d.image }}" style="width:100%; height:100px; object-fit:cover; border-radius:10px; mb-2">
+                        {% endif %}
+                        <b style="color:#1d4ed8; text-transform:uppercase; font-size:12px;">{{ d.category }}</b><br>
+                        <small style="font-weight:bold; color:#64748b;">{{ d.ra }}</small>
+                        <hr style="margin:8px 0; border:0; border-top:1px solid #eee;">
+                        <p style="font-size:11px; color:#334155; margin:0;">{{ d.description[:100] }}...</p>
+                    </div>
+                `);
+        }
+    {% endfor %}
 {% endfor %}
 
         setTimeout(() => { map.invalidateSize(); }, 500);
+
+
+
+
+
+
+{% for d in denuncias %}
+    L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
+        .bindPopup(`
+            <div style="width:220px; font-family:sans-serif;">
+                <b style="color:#1d4ed8;">{{ d.category }}</b><br>
+                <small>Status Atual: <b>{{ d.status }}</b></small>
+                <hr style="margin:8px 0;">
+                
+                <div style="font-size:10px; color:#64748b;">
+                    <b>LINHA DO TEMPO:</b><br>
+                    • {{ d.date }}: Criado (Aberto)<br>
+                    
+                    {% for h in historicos %}
+                        {% if h.report_id == d.id %}
+                            • {{ h.data_modificacao }}: {{ h.status_novo }}<br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        `);
+{% endfor %}
+
+
+
+
+
+
+
+
+
     </script>
 </body>
 </html>

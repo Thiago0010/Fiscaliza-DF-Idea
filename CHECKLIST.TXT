@@ -13,36 +13,36 @@ OK: Categoria obrigatória
 OK: Região administrativa obrigatória
 OK: Descrição obrigatória
 OK: Latitude e longitude
-☐ Upload opcional de imagem
-☐ Data automática
-☐ Status padrão = “Aberto”
-☐ Validação de formulário
-☐ Proteção contra spam básico
+OK: Upload opcional de imagem
+OK: Data automática
+OK: Status padrão = “Aberto”
+OK: Validação de formulário
+OK: Proteção contra spam básico
 
 🔹 3. Sistema de Status
 
-☐ Aberto
-☐ Em análise
-☐ Resolvido
-☐ Apenas admin pode alterar
-☐ Histórico de atualização (ideal)
+OK: Aberto
+OK: Em análise
+OK: Resolvido
+OK: Apenas admin pode alterar
+OK: Histórico de atualização (ideal)
 
 🔹 4. Mapa Público
 
-☐ Marcadores para cada denúncia
-☐ Popup com informações principais
-☐ Filtro por categoria
-☐ Filtro por região
-☐ Atualização dinâmica
+OK: Marcadores para cada denúncia
+OK: Popup com informações principais
+OK: Filtro por categoria
+OK: Filtro por região
+OK: Atualização dinâmica
 
 🔹 5. Dashboard Público
 
-☐ Total geral de registros
-☐ Total por região
-☐ Total por categoria
-☐ Categoria mais reportada
-☐ Região com mais registros
-☐ Última atualização do sistema
+OK: Total geral de registros
+OK: Total por região
+OK: Total por categoria
+OK: Categoria mais reportada
+OK: Região com mais registros
+OK: Última atualização do sistema
 
 Isso é o que transforma projeto comum em ferramenta séria.
 
