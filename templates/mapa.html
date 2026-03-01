@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Geográfico | Fiscaliza DF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #fullscreen-map { height: calc(100vh - 80px); width: 100%; z-index: 1; }
+        .leaflet-popup-content-wrapper { border-radius: 1rem; }
+    </style>
+</head>
+<body class="bg-slate-900 overflow-hidden">
+    <nav class="h-20 bg-slate-900 border-b border-slate-800 px-6 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <a href="/" class="text-white bg-slate-800 p-2 rounded-lg hover:bg-slate-700 transition">←</a>
+            <h1 class="text-white font-black uppercase italic tracking-tighter">Painel <span class="text-blue-500">Vivo</span></h1>
+        </div>
+        <div class="flex gap-3">
+            <span class="bg-blue-900/50 text-blue-400 text-[10px] font-bold px-3 py-1 rounded-full border border-blue-800">DISTRITO FEDERAL</span>
+            <a href="/relatar" class="bg-blue-600 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest hover:bg-blue-500 transition">Novo Relato</a>
+        </div>
+    </nav>
+
+    <div id="fullscreen-map"></div>
+
+    <script>
+        const bounds = L.latLngBounds(L.latLng(-16.1, -48.3), L.latLng(-15.4, -47.2));
+        var map = L.map('fullscreen-map', { maxBounds: bounds }).setView([-15.7938, -47.8827], 11);
+
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '© Google'
+        }).addTo(map);
+
+        {% for d in denuncias %}
+        L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
+            .bindPopup(`
+                <div class="p-2">
+                    <strong class="text-blue-700 uppercase text-xs">${"{{ d.category }}"}</strong>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase">${"{{ d.ra }}"}</p>
+                    <p class="text-xs mt-2 italic text-slate-600">"${"{{ d.description }}"}"</p>
+                </div>
+            `);
+        {% endfor %}
+    </script>
+</body>
+</html>

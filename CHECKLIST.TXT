@@ -1,0 +1,102 @@
+✅ CHECKLIST – Plataforma Cívica “Fiscaliza DF”
+🔹 1. Estrutura Básica Obrigatória
+
+OK: Página inicial institucional e profissional
+OK: Página de registro de problema
+OK: Página pública de listagem
+OK: Página de mapa interativo
+OK: Página “Sobre o Projeto”
+
+🔹 2. Registro de Problemas (núcleo do sistema)
+
+☐ Categoria obrigatória
+☐ Região administrativa obrigatória
+☐ Descrição obrigatória
+☐ Latitude e longitude
+☐ Upload opcional de imagem
+☐ Data automática
+☐ Status padrão = “Aberto”
+☐ Validação de formulário
+☐ Proteção contra spam básico
+
+🔹 3. Sistema de Status
+
+☐ Aberto
+☐ Em análise
+☐ Resolvido
+☐ Apenas admin pode alterar
+☐ Histórico de atualização (ideal)
+
+🔹 4. Mapa Público
+
+☐ Marcadores para cada denúncia
+☐ Popup com informações principais
+☐ Filtro por categoria
+☐ Filtro por região
+☐ Atualização dinâmica
+
+🔹 5. Dashboard Público
+
+☐ Total geral de registros
+☐ Total por região
+☐ Total por categoria
+☐ Categoria mais reportada
+☐ Região com mais registros
+☐ Última atualização do sistema
+
+Isso é o que transforma projeto comum em ferramenta séria.
+
+🔹 6. Painel Administrativo
+
+☐ Login protegido
+☐ Alterar status
+☐ Remover denúncia inadequada
+☐ Visualizar todos registros
+☐ Busca interna
+
+🔹 7. Credibilidade Institucional
+
+☐ Texto institucional claro
+☐ Aviso de que não substitui canais oficiais
+☐ Política simples de uso
+☐ Responsividade total
+☐ Visual limpo e profissional
+
+🔹 8. Dados e Relatórios (MUITO IMPORTANTE)
+
+☐ Exportação de dados (CSV ou PDF)
+☐ Relatório mensal automático
+☐ Gráficos organizados
+☐ Data de geração do relatório
+☐ Resumo executivo no relatório
+
+Isso é o que você vai usar para apresentar depois.
+
+🔹 9. Segurança Básica
+
+☐ Sanitização de inputs
+☐ Proteção contra SQL injection
+☐ Limite de upload de imagem
+☐ Verificação básica anti-bot
+
+🔹 10. Elementos Estratégicos
+
+☐ Contador público visível na home
+☐ Últimos registros exibidos
+☐ Nome forte do projeto
+☐ Identidade visual consistente
+☐ Frase institucional forte
+
+🎯 Nível mínimo para apresentar para a
+
+Câmara Legislativa do Distrito Federal
+
+Você precisa ter pelo menos:
+
+✔ 100+ registros reais
+✔ Dashboard funcionando
+✔ Relatório gerado
+✔ Site online estável
+✔ Design profissional
+
+Sem isso, não vale a pena apresentar.

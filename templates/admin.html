@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel de Gestão | Fiscaliza DF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 font-sans">
+    <nav class="bg-slate-900 text-white p-6 flex justify-between items-center shadow-xl">
+        <h1 class="font-black tracking-tighter text-xl">ADMIN <span class="text-blue-500">FISCALIZA DF</span></h1>
+        <a href="/logout" class="text-xs bg-red-600 px-4 py-2 rounded-lg font-bold">Sair do Sistema</a>
+    </nav>
+
+    <main class="max-w-6xl mx-auto py-12 px-6">
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 border-b border-slate-100">
+                    <tr>
+                        <th class="p-6 text-xs font-black uppercase text-slate-400">Categoria/RA</th>
+                        <th class="p-6 text-xs font-black uppercase text-slate-400">Descrição</th>
+                        <th class="p-6 text-xs font-black uppercase text-slate-400">Status</th>
+                        <th class="p-6 text-xs font-black uppercase text-slate-400 text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for d in denuncias %}
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-6">
+                            <p class="font-bold text-slate-800">{{ d.category }}</p>
+                            <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest">{{ d.ra }}</p>
+                        </td>
+                        <td class="p-6 text-sm text-slate-600 max-w-xs italic">"{{ d.description }}"</td>
+                        <td class="p-6">
+                            {% if d.status == 'Resolvido' %}
+                                <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-black uppercase">Resolvido</span>
+                            {% else %}
+                                <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-black uppercase">Pendente</span>
+                            {% endif %}
+                        </td>
+                        <td class="p-6 text-right space-x-2">
+                            {% if d.status != 'Resolvido' %}
+                            <a href="/resolver/{{ d.id }}" class="text-[10px] font-black bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700">MARCAR RESOLVIDO</a>
+                            {% endif %}
+                            <a href="/excluir/{{ d.id }}" onclick="return confirm('Tem certeza?')" class="text-[10px] font-black bg-slate-100 text-slate-400 px-3 py-2 rounded-md hover:bg-red-600 hover:text-white transition">EXCLUIR</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

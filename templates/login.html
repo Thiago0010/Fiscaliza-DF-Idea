@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen p-6">
+    <form action="/login" method="POST" class="bg-white p-10 rounded-3xl shadow-2xl max-w-sm w-full space-y-6">
+        <div class="text-center">
+            <h2 class="text-2xl font-black text-slate-800 italic uppercase tracking-tighter">Área Restrita</h2>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Acesso do Desenvolvedor</p>
+        </div>
+        <input type="password" name="password" placeholder="Digite a senha mestra" class="w-full p-4 bg-slate-100 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-600 transition" autofocus>
+        <button type="submit" class="w-full bg-blue-700 text-white font-black py-4 rounded-2xl hover:bg-blue-800 shadow-xl shadow-blue-200 uppercase tracking-widest text-xs">Entrar no Painel</button>
+        <a href="/" class="block text-center text-[10px] font-bold text-slate-400 uppercase hover:underline">Voltar ao site público</a>
+    </form>
+</body>
+</html>
