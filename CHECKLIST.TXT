@@ -74,10 +74,10 @@ Isso é o que você vai usar para apresentar depois.
 
 🔹 9. Segurança Básica
 
-☐ Sanitização de inputs
-☐ Proteção contra SQL injection
-☐ Limite de upload de imagem
-☐ Verificação básica anti-bot
+OK: Sanitização de inputs
+OK: Proteção contra SQL injection
+OK: Limite de upload de imagem
+OK: Verificação básica anti-bot
 
 🔹 10. Elementos Estratégicos
 
@@ -100,3 +100,24 @@ Você precisa ter pelo menos:
 ✔ Design profissional
 
 Sem isso, não vale a pena apresentar.
+
+
+
+
+
+
+
+
+
+
+                                         ACABEIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+
+
+
+
+
+
+
+
+                                         Made by [NEV]²Thi_ii.

@@ -9,7 +9,17 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+# Limite de 5MB por imagem para não estourar o servidor
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 
+
+# Função para garantir que só subam imagens reais
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif'}
 app.secret_key = "chave_mestra_fiscaliza_df_2026"
+
+
+
+
 
 # ==========================================
 # 1. CONFIGURAÇÕES DE DIRETÓRIO
