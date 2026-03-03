@@ -2,17 +2,57 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Restrito - Fiscaliza DF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="/static/css/responsivo.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-900 flex items-center justify-center min-h-screen p-6">
-    <form action="/login" method="POST" class="bg-white p-10 rounded-3xl shadow-2xl max-w-sm w-full space-y-6">
-        <div class="text-center">
-            <h2 class="text-2xl font-black text-slate-800 italic uppercase tracking-tighter">Área Restrita</h2>
-            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Acesso do Desenvolvedor</p>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-6">
+
+    <div class="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl border border-slate-200 w-full max-w-md transition-all">
+        
+        <div class="text-center mb-10">
+            <div class="inline-block bg-blue-600 text-white px-6 py-3 rounded-2xl mb-4 shadow-lg shadow-blue-600/20 text-2xl font-black italic tracking-tighter">
+                F-DF
+            </div>
+            <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter">Portal de Gestão</h2>
+            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">Acesso Restrito Administrativo</p>
         </div>
-        <input type="password" name="password" placeholder="Digite a senha mestra" class="w-full p-4 bg-slate-100 border-none rounded-2xl outline-none focus:ring-2 focus:ring-blue-600 transition" autofocus>
-        <button type="submit" class="w-full bg-blue-700 text-white font-black py-4 rounded-2xl hover:bg-blue-800 shadow-xl shadow-blue-200 uppercase tracking-widest text-xs">Entrar no Painel</button>
-        <a href="/" class="block text-center text-[10px] font-bold text-slate-400 uppercase hover:underline">Voltar ao site público</a>
-    </form>
+
+     
+        <form method="POST" action="/login" class="space-y-6">
+            <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-4 tracking-widest">E-mail Corporativo</label>
+                <input type="email" name="email" placeholder="admin@df.gov.br" required 
+                       class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-600 focus:bg-white outline-none font-bold text-sm transition-all placeholder:text-slate-300">
+            </div>
+            
+            <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 mb-2 ml-4 tracking-widest">Senha de Acesso</label>
+                <input type="password" name="password" placeholder="••••••••" required 
+                       class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-blue-600 focus:bg-white outline-none font-bold text-sm transition-all placeholder:text-slate-300">
+            </div>
+
+            <button type="submit" class="w-full bg-slate-900 text-white p-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition shadow-xl active:scale-95 duration-200">
+                Entrar no Sistema
+            </button>
+        </form>
+        
+        <div class="mt-10 text-center border-t border-slate-100 pt-8">
+            <a href="/" class="text-slate-400 text-[9px] font-black uppercase tracking-widest hover:text-blue-600 transition group">
+                <span class="inline-block transform group-hover:-translate-x-1 transition">←</span> Voltar ao Painel Público
+            </a>
+        </div>
+
+    </div>
+
+    <div class="fixed bottom-6 text-[9px] text-slate-400 font-bold uppercase tracking-[0.3em] text-center w-full">
+        Conexão Criptografada &copy; 2026 GDF
+    </div>
+
 </body>
 </html>

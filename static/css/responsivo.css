@@ -1,0 +1,77 @@
+/* RESET E COMPORTAMENTO DE TELA */
+* {
+    -webkit-tap-highlight-color: transparent; /* Remove o brilho azul ao tocar no mobile */
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden; /* Impede que a tela balance para os lados */
+    width: 100%;
+    position: relative;
+}
+
+/* AJUSTE DE INPUTS PARA NÃO DAR ZOOM NO IOS */
+input, select, textarea {
+    font-size: 16px !important; /* Mínimo para evitar zoom automático do navegador */
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* GRID ADAPTÁVEL (INDEX E ADMIN) */
+.grid-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+@media (max-width: 640px) {
+    .grid-main {
+        grid-template-columns: 1fr; /* Coluna única no celular */
+        padding: 0.5rem;
+    }
+}
+
+/* PAINEL LATERAL FULLSCREEN NO MOBILE (MAPA E ADMIN) */
+.side-panel {
+    width: 450px;
+    max-width: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .side-panel {
+        width: 100% !important; /* Ocupa a tela toda no celular */
+    }
+    
+    /* Ajuste de margens para telas pequenas */
+    .p-mobile {
+        padding: 1.25rem !important;
+    }
+    
+    .text-title-mobile {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* BOTÕES TOUCH-FRIENDLY */
+button, .btn-action {
+    min-height: 48px; /* Altura ideal para o polegar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* IMAGENS DAS DENÚNCIAS */
+.img-report {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 1.5rem;
+}
+
+/* UTILITÁRIO PARA ESCONDER COISAS NO CELULAR SE NECESSÁRIO */
+@media (max-width: 1024px) {
+    .hide-tablet { display: none !important; }
+}

@@ -2,92 +2,171 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Painel Geográfico | Fiscaliza DF</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Ocorrências - Fiscaliza DF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+     <link rel="stylesheet" href="/static/css/responsivo.css">
+    
     <style>
-        #fullscreen-map { height: calc(100vh - 80px); width: 100%; z-index: 1; }
-        .leaflet-popup-content-wrapper { border-radius: 1rem; }
+        /* O mapa ocupa a tela toda */
+        #map { height: 100vh; width: 100%; z-index: 1; }
+        /* Animação suave para o menu lateral */
+        .animate-slide { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-900 overflow-hidden">
-    <nav class="h-20 bg-slate-900 border-b border-slate-800 px-6 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <a href="/" class="text-white bg-slate-800 p-2 rounded-lg hover:bg-slate-700 transition">←</a>
-            <h1 class="text-white font-black uppercase italic tracking-tighter">Painel <span class="text-blue-500">Vivo</span></h1>
+<body class="bg-slate-900 overflow-hidden font-sans">
+
+    <a href="/" class="fixed top-6 left-6 z-[100] bg-white text-slate-900 px-6 py-4 rounded-2xl shadow-2xl font-black uppercase text-[10px] hover:bg-slate-100 transition border border-slate-200">
+        ← Voltar ao Início
+    </a>
+
+    <div id="map"></div>
+
+    <div id="side-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[1000] shadow-2xl translate-x-full animate-slide flex flex-col border-l border-slate-200">
+        
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <div>
+                <h2 id="p-category" class="font-black text-2xl uppercase italic tracking-tighter text-slate-800">Categoria</h2>
+                <p id="p-protocolo" class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Protocolo #00</p>
+            </div>
+            <button onclick="closePanel()" class="text-3xl text-slate-300 hover:text-red-500 transition">&times;</button>
         </div>
-        <div class="flex gap-3">
-            <span class="bg-blue-900/50 text-blue-400 text-[10px] font-bold px-3 py-1 rounded-full border border-blue-800">DISTRITO FEDERAL</span>
-            <a href="/relatar" class="bg-blue-600 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest hover:bg-blue-500 transition">Novo Relato</a>
-        </div>
-    </nav>
 
-    <div id="fullscreen-map"></div>
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+            
+            <img id="p-img" src="" class="w-full h-48 object-cover rounded-[2rem] shadow-md hidden">
+            
+            <div class="bg-blue-50 p-6 rounded-[2rem] border border-blue-100">
+                <span class="block text-[9px] font-black text-blue-400 uppercase mb-2 tracking-widest">Relato Original</span>
+                <p id="p-desc" class="text-sm text-slate-700 leading-relaxed font-medium italic"></p>
+            </div>
 
-    <script>
-        const bounds = L.latLngBounds(L.latLng(-16.1, -48.3), L.latLng(-15.4, -47.2));
-        var map = L.map('fullscreen-map', { maxBounds: bounds }).setView([-15.7938, -47.8827], 11);
-
-        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-            maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], attribution: '© Google'
-        }).addTo(map);
-
-        {% for d in denuncias %}
-     
-
-// Renderizar as denúncias no mapa com Foto e Descrição
-{% for d in denuncias %}
-        // Verifica se existem coordenadas válidas antes de criar o marcador
-        if ("{{ d.lat }}" && "{{ d.lng }}") {
-            L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
-                .bindPopup(`
-                    <div style="width: 200px; font-family: sans-serif;">
-                        {% if d.image and d.image != 'None' %}
-                            <img src="/static/uploads/{{ d.image }}" style="width:100%; height:100px; object-fit:cover; border-radius:10px; mb-2">
-                        {% endif %}
-                        <b style="color:#1d4ed8; text-transform:uppercase; font-size:12px;">{{ d.category }}</b><br>
-                        <small style="font-weight:bold; color:#64748b;">{{ d.ra }}</small>
-                        <hr style="margin:8px 0; border:0; border-top:1px solid #eee;">
-                        <p style="font-size:11px; color:#334155; margin:0;">{{ d.description[:100] }}...</p>
-                    </div>
-                `);
-        }
-    {% endfor %}
-{% endfor %}
-
-
-
-
-
-{% for d in denuncias %}
-    L.marker([{{ d.lat }}, {{ d.lng }}]).addTo(map)
-        .bindPopup(`
-            <div style="width:220px; font-family:sans-serif;">
-                <b style="color:#1d4ed8;">{{ d.category }}</b><br>
-                <small>Status Atual: <b>{{ d.status }}</b></small>
-                <hr style="margin:8px 0;">
-                
-                <div style="font-size:10px; color:#64748b;">
-                    <b>LINHA DO TEMPO:</b><br>
-                    • {{ d.date }}: Criado (Aberto)<br>
-                    
-                    {% for h in historicos %}
-                        {% if h.report_id == d.id %}
-                            • {{ h.data_modificacao }}: {{ h.status_novo }}<br>
-                        {% endif %}
-                    {% endfor %}
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="block text-[8px] font-black text-slate-400 uppercase mb-1">Status Atual</span>
+                    <p id="p-status" class="font-black text-[11px] uppercase text-amber-600"></p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="block text-[8px] font-black text-slate-400 uppercase mb-1">Localização</span>
+                    <p id="p-ra" class="font-black text-[11px] uppercase text-slate-700"></p>
                 </div>
             </div>
-        `);
-{% endfor %}
 
+            <div class="mt-8">
+                <h4 class="text-[10px] font-black uppercase text-slate-400 mb-6 tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Bate-papo do Protocolo
+                </h4>
+                
+                <div id="p-chat" class="space-y-4 mb-6">
+                    </div>
 
+                <form id="chat-form" method="POST" action="" class="flex gap-2 sticky bottom-0 bg-white pt-4">
+                    <input type="text" name="message" placeholder="Dúvida ou atualização..." required
+                           class="flex-1 p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-xs font-bold outline-none focus:border-blue-500 transition">
+                    <button type="submit" class="bg-slate-900 text-white px-6 rounded-2xl font-black text-[10px] uppercase hover:bg-blue-600 transition shadow-lg shadow-blue-500/20">
+                        Enviar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    
 
+    <script>
+        // 1. Inicializa o Mapa focado em Brasília
+        const map = L.map('map').setView([-15.7942, -47.8822], 11);
+        
+        // Camada visual do mapa (clara e limpa)
+     // Substitua o L.tileLayer antigo por este:
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+}).addTo(map);
 
+        // 2. Recebe os dados exatos do seu banco de dados (enviados pelo app.py)
+        const denuncias = {{ denuncias | tojson | safe }};
 
+        // 3. Função para abrir o painel lateral e preencher os dados
+        function openPanel(d) {
+            // Preenche os textos básicos
+            document.getElementById('p-category').innerText = d.category;
+            document.getElementById('p-protocolo').innerText = 'Protocolo #' + d.id;
+            document.getElementById('p-desc').innerText = '"' + d.description + '"';
+            document.getElementById('p-ra').innerText = d.ra;
+            
+            // Define a cor do status dinamicamente
+            const statusEl = document.getElementById('p-status');
+            statusEl.innerText = d.status;
+            statusEl.className = 'font-black text-[11px] uppercase ' + 
+                (d.status === 'Aberto' ? 'text-amber-600' : 
+                 d.status === 'Em análise' ? 'text-blue-600' : 'text-emerald-600');
+            
+            // Lida com a imagem
+            const imgEl = document.getElementById('p-img');
+            if(d.image) {
+                imgEl.src = '/static/uploads/' + d.image;
+                imgEl.classList.remove('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+            }
 
+            // Lida com o Chat (Limpando e recriando as mensagens)
+            const chatBox = document.getElementById('p-chat');
+            chatBox.innerHTML = ''; // Limpa antes de abrir
+            
+            if (d.comentarios && d.comentarios.length > 0) {
+                d.comentarios.forEach(c => {
+                    const div = document.createElement('div');
+                    const isCidadao = c.user_name === 'Cidadão';
+                    
+                    // Estiliza a mensagem dependendo de quem enviou
+                    div.className = `p-4 rounded-2xl ${isCidadao ? 'bg-slate-100 mr-8' : 'bg-blue-100 border border-blue-200 ml-8'}`;
+                    
+                    div.innerHTML = `
+                        <div class="flex justify-between text-[8px] font-black uppercase mb-1">
+                            <span class="${isCidadao ? 'text-slate-500' : 'text-blue-600'}">${c.user_name}</span>
+                            <span class="text-slate-400">${c.timestamp}</span>
+                        </div>
+                        <p class="text-xs font-bold text-slate-700">${c.message}</p>
+                    `;
+                    chatBox.appendChild(div);
+                });
+            } else {
+                chatBox.innerHTML = '<p class="text-[10px] text-slate-400 uppercase font-bold text-center italic py-4">Nenhuma mensagem ainda.</p>';
+            }
+
+            // Atualiza o destino do formulário para o ID correto
+            document.getElementById('chat-form').action = '/comentar_publico/' + d.id;
+
+            // Faz o painel deslizar para a tela (remove a classe que esconde)
+            document.getElementById('side-panel').classList.remove('translate-x-full');
+        }
+
+        // 4. Função para fechar o painel lateral
+        function closePanel() {
+            document.getElementById('side-panel').classList.add('translate-x-full');
+        }
+
+        // 5. Adiciona os alfinetes (markers) no mapa
+        denuncias.forEach(d => {
+            const marker = L.marker([d.lat, d.lng]).addTo(map);
+            
+            // Cria a janelinha (popup) que aparece ao clicar no alfinete
+            // AQUI ESTÁ O BOTÃO QUE ABRE O PAINEL!
+            const popupContent = `
+                <div class="text-center p-2 min-w-[150px]">
+                    <b class="uppercase font-black text-slate-800 text-sm block mb-1">${d.category}</b>
+                    <span class="text-[9px] text-slate-400 uppercase font-bold tracking-widest block mb-3">${d.ra}</span>
+                    <button onclick='openPanel(${JSON.stringify(d)})' class="w-full bg-blue-600 hover:bg-slate-900 transition text-white px-3 py-2 rounded-xl text-[9px] font-black uppercase shadow-lg shadow-blue-500/30">
+                        Ver Detalhes e Chat
+                    </button>
+                </div>
+            `;
+            marker.bindPopup(popupContent);
+        });
     </script>
 </body>
 </html>

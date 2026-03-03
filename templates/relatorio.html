@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Executivo - Fiscaliza DF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .print-break { page-break-after: always; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 p-8">
+
+    <div class="max-w-5xl mx-auto bg-white p-12 shadow-2xl rounded-[3rem] border border-slate-200">
+        <div class="flex justify-between items-start border-b-4 border-blue-600 pb-8 mb-10">
+            <div>
+                <h1 class="text-4xl font-black italic uppercase tracking-tighter text-slate-900">Fiscaliza <span class="text-blue-600">DF</span></h1>
+                <p class="text-[10px] font-black uppercase text-slate-400 tracking-[0.3em]">Relatório Mensal de Zeladoria Urbana</p>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Gerado em:</p>
+                <p class="font-bold text-sm text-slate-800">{{ data }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mb-12">
+            <div class="bg-slate-900 text-white p-6 rounded-3xl text-center">
+                <p class="text-[10px] font-bold uppercase opacity-60">Total de Ocorrências</p>
+                <p class="text-4xl font-black">{{ total }}</p>
+            </div>
+            <div class="bg-emerald-500 text-white p-6 rounded-3xl text-center">
+                <p class="text-[10px] font-bold uppercase opacity-60">Casos Resolvidos</p>
+                <p class="text-4xl font-black">{{ resolvidos }}</p>
+            </div>
+            <div class="bg-amber-500 text-white p-6 rounded-3xl text-center">
+                <p class="text-[10px] font-bold uppercase opacity-60">Pendentes</p>
+                <p class="text-4xl font-black">{{ pendentes }}</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-12">
+            <div class="bg-slate-50 p-6 rounded-[2rem]">
+                <h3 class="font-black text-xs uppercase mb-6 text-center text-slate-400">Demandas por Categoria</h3>
+                <canvas id="chartCategorias"></canvas>
+            </div>
+            <div class="bg-slate-50 p-6 rounded-[2rem]">
+                <h3 class="font-black text-xs uppercase mb-6 text-center text-slate-400">Distribuição por Região (RA)</h3>
+                <canvas id="chartRAs"></canvas>
+            </div>
+        </div>
+
+        <div class="no-print flex gap-4 justify-center mt-12">
+            <button onclick="window.print()" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs hover:bg-slate-900 transition">Salvar como PDF</button>
+            <a href="/admin/exportar/csv" class="bg-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-black uppercase text-xs hover:bg-slate-300 transition">Baixar Planilha (CSV)</a>
+        </div>
+    </div>
+
+    
+
+    <script>
+        // Configuração do Gráfico de Categorias
+        new Chart(document.getElementById('chartCategorias'), {
+            type: 'doughnut',
+            data: {
+                labels: [{% for c in cats %}'{{ c.category }}',{% endfor %}],
+                datasets: [{
+                    data: [{% for c in cats %}{{ c.qtd }},{% endfor %}],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#64748b', '#0f172a']
+                }]
+            },
+            options: { plugins: { legend: { position: 'bottom', labels: { font: { weight: 'bold', size: 10 } } } } }
+        });
+
+        // Configuração do Gráfico de RAs
+        new Chart(document.getElementById('chartRAs'), {
+            type: 'bar',
+            data: {
+                labels: [{% for r in ras %}'{{ r.ra }}',{% endfor %}],
+                datasets: [{
+                    label: 'Denúncias',
+                    data: [{% for r in ras %}{{ r.qtd }},{% endfor %}],
+                    backgroundColor: '#2563eb',
+                    borderRadius: 10
+                }]
+            },
+            options: { scales: { y: { beginAtZero: true } } }
+        });
+    </script>
+</body>
+</html>
