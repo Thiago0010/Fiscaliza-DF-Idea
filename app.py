@@ -8,6 +8,7 @@ from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
 
+
 app = Flask(__name__)
 # Limite de 5MB por imagem para não estourar o servidor
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 
@@ -360,7 +361,6 @@ def gerar_relatorio():
     conn.close()
     return render_template('relatorio.html', total=total, resolvidos=resolvidos, 
                            pendentes=pendentes, cats=cats, ras=ras, data=data_geracao)
-
-
+   
 if __name__ == '__main__':
     app.run(debug=True)

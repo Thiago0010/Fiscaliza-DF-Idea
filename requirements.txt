@@ -1,4 +1,4 @@
 flask
 pandas
 bleach
-gunicorn
+serverless_wsgi
