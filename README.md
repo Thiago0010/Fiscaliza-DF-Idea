@@ -1,51 +1,79 @@
-# 🏛️ Fiscaliza DF
-> **Engenharia de Software de Elite para Zeladoria Urbana Inteligente.**
+# 🏙️🔍 Fiscaliza DF: Engenharia de Transparência Pública
 
-O **Fiscaliza DF** não é apenas uma aplicação web; é uma plataforma de **Engenharia Social e Urbana** projetada para o Distrito Federal. Com uma interface **minimalista, futurista e de resposta imediata**, ela coloca o poder de auditoria na palma da mão do cidadão. Permite o registro técnico de ocorrências com precisão cirúrgica de geolocalização e evidências visuais, criando uma ponte direta e transparente com a gestão pública.
+[![Licença](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Framework-Flask-000000?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Tailwind](https://img.shields.io/badge/UI-Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
----
+> **"Zeladoria urbana inteligente para um Distrito Federal mais transparente."**
 
-## 🛠️ Stack Tecnológica (The Core)
-
-Construído sobre uma arquitetura enxuta, focada em performance e zero dependências desnecessárias.
-
-### Backend & Core
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
-
-### Frontend & UX Premium
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![Tailwind_CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Leaflet](https://img.shields.io/badge/Leaflet-199900?style=for-the-badge&logo=leaflet&logoColor=white)
+O **Fiscaliza DF** é um ecossistema de software de alto impacto projetado para modernizar a interação entre o cidadão e a gestão pública do Distrito Federal. Através de uma interface minimalista e funcional, a plataforma permite o reporte geolocalizado de incidentes urbanos e oferece um painel administrativo robusto para auditoria e resolução de demandas.
 
 ---
 
-## 🖥️ Demonstração do Sistema
+## 1. 📋 Visão Geral do Projeto
 
-### Interface do Cidadão (Mobile First)
-```text
-+---------------------------------+
-|   ← Voltar        [NEV]²        |
-+---------------------------------+
-|                                 |
-|   🏛️ Registrar Problema        |
-|                                 |
-|  1. Tipo de Problema            |
-|  [🕳️] [💡] [♻️] [🌳]            |
-|                                 |
-|  2. Localização (Satélite)      |
-|  +---------------------------+  |
-|  | [X] Marcador Ativo       |  |
-|  +---------------------------+  |
-|                                 |
-|  3. Evidência Visual            |
-|  [📸 Tirar Foto]                |
-|                                 |
-|  4. Identificação (LGPD)        |
-|  Nome: Thiago Caselato...       |
-|  CPF:  000.000...-00            |
-|                                 |
-|  [ PROTOCOLAR RELATO ]          |
-+---------------------------------+
+O sistema foi concebido para resolver o gap de comunicação entre a população e os órgãos governamentais. Ele opera em três frentes principais:
+*   **Captura de Dados:** Interface intuitiva para o cidadão relatar problemas com fotos e coordenadas precisas.
+*   **Gestão Governamental:** Painel restrito para análise, resposta e atualização de status em tempo real.
+*   **Transparência Ativa:** Dashboards públicos que mostram estatísticas reais de eficiência do governo.
+
+---
+
+## 2. 🚀 Funcionalidades Principais
+
+### Portal do Cidadão
+*   **Relato com Geolocalização:** Captura automática ou manual de Latitude/Longitude.
+*   **Upload Inteligente:** Suporte a imagens de até 5MB com validação de segurança.
+*   **Segurança Anti-Bot:** Implementação de desafio lógico dinâmico e *Honeypot* para evitar spam.
+*   **Mapa Interativo:** Visualização de ocorrências em todo o território do DF.
+
+### Painel Administrativo (Fiscaliza Admin)
+*   **Gestão de Protocolos:** Fluxo completo de `Aberto`, `Em Análise` e `Resolvido`.
+*   **Anotações e Chat Interno:** Registro histórico de interações entre gestor e cidadão dentro de cada chamado.
+*   **Trilha de Auditoria:** Banco de dados que registra cada mudança de status para controle interno.
+*   **Exportação de Inteligência:** Botão para exportação instantânea de dados em CSV para análise em BI.
+
+---
+
+## 3. 🛠️ Stack Tecnológica
+
+O projeto utiliza o conceito de **Full-Stack Light**, priorizando velocidade de carregamento e facilidade de manutenção:
+
+*   **Linguagem:** [Python 3](https://www.python.org/)
+*   **Framework Web:** [Flask](https://flask.palletsprojects.com/) (Roteamento e lógica de servidor)
+*   **Banco de Dados:** [SQLite](https://sqlite.org/) (Persistência de dados local)
+*   **Estilização:** [Tailwind CSS](https://tailwindcss.com/) (Design responsivo e moderno)
+*   **Manipulação de Dados:** [Pandas](https://pandas.pydata.org/) (Processamento de relatórios CSV)
+
+---
+
+## 4. 🗄️ Arquitetura do Banco de Dados
+
+O banco de dados `database.db` é estruturado em três tabelas integradas:
+
+*   **`reports`**: Entidade principal que armazena categoria, RA (Região Administrativa), descrição, fotos, coordenadas e dados do relator (Nome/CPF).
+*   **`history`**: Tabela de log que armazena mudanças de status para transparência governamental.
+*   **`comments`**: Sistema de chat vinculado a cada protocolo.
+
+---
+
+## 5. 💻 Instalação e Execução
+
+Para rodar o **Fiscaliza DF** em seu ambiente local (Windows, Linux ou macOS), siga estas etapas:
+
+### Pré-requisitos
+*   Python 3.10 ou superior instalado.
+
+### Passo a Passo
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/seu-usuario/fiscaliza-df.git
+    cd fiscaliza-df
+    ```
+
+2.  **Crie um ambiente virtual (Opcional, mas recomendado):**
+    ```bash
+    python -m venv venv
+    # No Windows:
